@@ -1,0 +1,22 @@
+:root {
+  color-scheme: light dark;
+}
+
+#title {
+  margin: unset;
+}
+
+#textblock {
+  margin-top: 10px;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background: #333; color: white; }
+}
+
+@media (prefers-color-scheme: light) {
+  body { background: #ddd; color: black; }
+}
