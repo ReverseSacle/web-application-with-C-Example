@@ -1,17 +1,21 @@
-const { app, BrowserWindow, globalShortcut, ipcMain, nativeTheme, Menu, MenuItem } = require('electron/main')
 const path = require('node:path')
-const fs = require('fs')
-const { load, DataType, open, close } = require('ffi-rs')
-
-const menu = new Menu()
-const cur_dir = __dirname
-const lib_path = path.join(cur_dir,'lib');
+const { app, BrowserWindow, ipcMain, nativeTheme, Menu, MenuItem } = require('electron/main')
+const { fileSave } = require('./lib/func')
 
 let mainWindow;
-open({
-    library: 'savefile',
-    path: path.join(lib_path,'savefile.dll')
-})
+const cur_dir = __dirname
+const menu = new Menu()
+
+menu.append(new MenuItem({
+    label: 'File',
+    submenu: [{
+      label: 'SaveFile',
+      accelerator: 'Ctrl+S',
+      click: () => { fileSave(cur_dir,mainWindow) }
+    }]
+}))
+
+Menu.setApplicationMenu(menu)
 
 function createWindow() 
 {
@@ -26,40 +30,6 @@ function createWindow()
     mainWindow.loadFile('index.html')
 }
 
-function fileSave()
-{
-    const save_path = path.join(cur_dir,'log')
-    console.log(save_path)
-    if(false == fs.existsSync(save_path)){ fs.mkdir(save_path, { recursive: true },() => {}) }
-
-    mainWindow.webContents.executeJavaScript(`document.getElementById('textblock').value;`)
-    .then(value => {
-        open({
-            library: 'savefile',
-            path: path.join(lib_path,'savefile.dll')
-        })
-        load({
-            library: 'savefile',
-            funcName: 'saveFile',
-            retType: DataType.Void,
-            paramsType: [DataType.String,DataType.String],
-            paramsValue: [path.join(save_path,'test.txt'),value]
-        })
-        close('savefile')
-    })
-}
-
-menu.append(new MenuItem({
-    label: 'File',
-    submenu: [{
-      label: 'SaveFile',
-      accelerator: 'Ctrl+S',
-      click: () => { fileSave() }
-    }]
-}))
-
-Menu.setApplicationMenu(menu)
-
 ipcMain.handle('dark-mode:toggle', () => {
     if (nativeTheme.shouldUseDarkColors) { nativeTheme.themeSource = 'light' } 
     else { nativeTheme.themeSource = 'dark' }
@@ -71,15 +41,14 @@ app.whenReady().then(() => {
     createWindow()
 
     app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) {
+        if (0 === BrowserWindow.getAllWindows().length) {
             createWindow()
         }
     })
 })
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') 
-    {
+    if (process.platform !== 'darwin') {
         app.quit()
     }
 })
