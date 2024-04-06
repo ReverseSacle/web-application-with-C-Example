@@ -7,7 +7,8 @@
 
 ### 环境
 
-```tex 删除目录，没有就跳过
+```tex
+# 删除下面的目录，没有就跳过
 C:\Program Files (x86)\Nodejs
 C:\Program Files\Nodejs
 C:\Users{User}\AppData\Roaming\npm（或%appdata%\npm）
