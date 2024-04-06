@@ -139,7 +139,4 @@ npm cache clean --force
 
 ### 与C语言联用
 
-PowerShell中执行
-
-- `npm install --global --production windows-build-tools@4.0.0`
 - `npm install koffi` - 第三方模块ffi，允许调用动态链接库中的C函数
