@@ -17,8 +17,6 @@ C:\Users{User}\AppData\Local\npm-cache
 
 Node.js - `node-v18.20.1`
 
-visual studio - 选`C++`桌面开发
-
 ### 切换网络环境
 
 ```bash
