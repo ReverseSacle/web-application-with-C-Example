@@ -1,0 +1,41 @@
+{
+  "name": "gui_app",
+  "version": "1.0.0",
+  "author": "xxxx",
+  "description": "test app",
+  "main": "./src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^29.2.0"
+  },
+  "dependencies": {
+    "koffi": "^2.8.1"
+  },
+  "build": {
+    "productName":"test app",
+    "appId": "com.test.app",
+    "copyright":"xxxx",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/*",
+      "!node_modules/*"
+    ],
+    "extraResources": [
+      "./lib/savefile.dll"
+    ],
+    "extraFiles": [
+      {
+        "from": "./lib",
+        "to": "./lib",
+        "filter": "*.dll"
+      }
+    ]
+  }
+}
